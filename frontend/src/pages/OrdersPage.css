@@ -1,0 +1,21 @@
+.orders-list { display: flex; flex-direction: column; gap: 16px; }
+.order-card { padding: 20px; }
+.order-header {
+  display: flex; align-items: center; gap: 24px; flex-wrap: wrap;
+  padding-bottom: 16px; border-bottom: 1px solid var(--gray-100); margin-bottom: 16px;
+}
+.order-id { font-size: 15px; font-family: monospace; }
+.order-items { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
+.order-item { display: flex; align-items: center; gap: 12px; }
+.order-emoji { font-size: 32px; }
+.order-item-info { flex: 1; }
+.order-footer {
+  display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap;
+  gap: 8px; padding-top: 14px; border-top: 1px solid var(--gray-100);
+}
+.order-total { font-size: 16px; }
+.empty-orders {
+  min-height: 60vh; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; text-align: center; gap: 12px;
+}
+.empty-orders h2 { font-size: 24px; font-weight: 700; }

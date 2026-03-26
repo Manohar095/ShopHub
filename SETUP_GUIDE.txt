@@ -1,0 +1,284 @@
+# 🛍️ ShopHub — Complete Setup Guide for Beginners
+# Read this carefully — follow every step in order!
+
+═══════════════════════════════════════════════════════
+ STEP 1 — INSTALL REQUIRED SOFTWARE (One-time setup)
+═══════════════════════════════════════════════════════
+
+You need to install these 3 things first:
+
+1. Node.js (runs JavaScript outside browser)
+   → Go to: https://nodejs.org
+   → Download the "LTS" version (green button)
+   → Install it — click Next → Next → Finish
+   → To verify: open Terminal / Command Prompt, type:
+       node --version
+     You should see something like: v20.x.x ✅
+
+2. MongoDB Community (your database)
+   → Go to: https://www.mongodb.com/try/download/community
+   → Select: Version = Latest, OS = Windows/Mac, Package = MSI
+   → Download and install (keep all defaults)
+   → Also install "MongoDB Compass" (GUI tool) — it comes bundled
+   → MongoDB runs automatically in background after install ✅
+
+3. VS Code (you said you already have this ✅)
+
+
+═══════════════════════════════════════════════════════
+ STEP 2 — OPEN THE PROJECT IN VS CODE
+═══════════════════════════════════════════════════════
+
+1. Extract the downloaded shophub.zip anywhere on your computer
+   (e.g. Desktop → shophub folder)
+
+2. Open VS Code
+
+3. Go to: File → Open Folder → select the "shophub" folder
+
+4. You should see two folders in the sidebar:
+   📁 backend
+   📁 frontend
+
+
+═══════════════════════════════════════════════════════
+ STEP 3 — SET UP THE BACKEND
+═══════════════════════════════════════════════════════
+
+In VS Code, open a Terminal:
+→ Press: Ctrl + ` (backtick key, top-left of keyboard)
+  OR go to: Terminal → New Terminal
+
+--- 3a. Go into the backend folder ---
+
+  cd backend
+
+--- 3b. Install backend packages ---
+
+  npm install
+
+  (This downloads all required libraries. Wait ~1 minute.)
+
+--- 3c. Create your .env file ---
+
+  Copy the example file:
+  - Windows:   copy .env.example .env
+  - Mac/Linux: cp .env.example .env
+
+  Now open the .env file in VS Code and fill it in:
+
+  PORT=5000
+  MONGO_URI=mongodb://localhost:27017/shophub
+  JWT_SECRET=MySecretKey123ShopHub          ← change this to anything secret
+  RAZORPAY_KEY_ID=                          ← leave blank for now (see Step 6)
+  RAZORPAY_KEY_SECRET=                      ← leave blank for now
+  EMAIL_USER=                               ← your Gmail (optional)
+  EMAIL_PASS=                               ← Gmail app password (optional)
+  FRONTEND_URL=http://localhost:3000
+
+  Save the file (Ctrl+S)
+
+--- 3d. Start the backend server ---
+
+  npm run dev
+
+  ✅ You should see:
+     ✅ MongoDB connected
+     🚀 Server running at http://localhost:5000
+
+  Leave this terminal running!
+
+
+═══════════════════════════════════════════════════════
+ STEP 4 — SET UP THE FRONTEND
+═══════════════════════════════════════════════════════
+
+Open a NEW terminal in VS Code:
+→ Click the "+" button in the terminal panel
+
+--- 4a. Go into the frontend folder ---
+
+  cd frontend
+
+--- 4b. Install frontend packages ---
+
+  npm install
+
+  (This takes 2-3 minutes — lots of React packages)
+
+--- 4c. Create frontend .env file ---
+
+  - Windows:   copy .env.example .env
+  - Mac/Linux: cp .env.example .env
+
+  For now, leave REACT_APP_RAZORPAY_KEY_ID blank.
+  You can add it later when you get Razorpay keys.
+
+--- 4d. Start the frontend ---
+
+  npm start
+
+  ✅ Your browser should automatically open:
+     http://localhost:3000
+
+  You will see the ShopHub website! 🎉
+
+
+═══════════════════════════════════════════════════════
+ STEP 5 — LOAD SAMPLE PRODUCTS (Admin setup)
+═══════════════════════════════════════════════════════
+
+--- 5a. Register an account ---
+  1. Click "Register" on the website
+  2. Create an account with your name, email, password
+
+--- 5b. Make yourself an Admin ---
+  1. Open MongoDB Compass (installed in Step 1)
+  2. Connect to: mongodb://localhost:27017
+  3. Click database: shophub → collection: users
+  4. Find your user, click Edit (pencil icon)
+  5. Change:  "role": "customer"
+         to:  "role": "admin"
+  6. Click Update
+
+--- 5c. Load sample products ---
+  1. Refresh the website and login again
+  2. Click your name (top right) → Admin Panel
+  3. Click the "🌱 Load Sample Products" button
+  4. ✅ 12 products will appear on the home page!
+
+
+═══════════════════════════════════════════════════════
+ STEP 6 — SET UP RAZORPAY PAYMENTS (Optional)
+═══════════════════════════════════════════════════════
+
+For real payments (test mode is free):
+
+1. Go to: https://razorpay.com
+2. Sign up for a free account
+3. Go to: Settings → API Keys → Generate Test Key
+4. Copy "Key ID" and "Key Secret"
+
+5. In backend/.env:
+   RAZORPAY_KEY_ID=rzp_test_xxxxxxxxxxxx
+   RAZORPAY_KEY_SECRET=xxxxxxxxxxxxxxxx
+
+6. In frontend/.env:
+   REACT_APP_RAZORPAY_KEY_ID=rzp_test_xxxxxxxxxxxx
+
+7. Restart both servers (Ctrl+C to stop, then npm run dev / npm start again)
+
+Test card for payments:
+   Card: 4111 1111 1111 1111
+   Expiry: Any future date
+   CVV: Any 3 digits
+   OTP: 1234
+
+
+═══════════════════════════════════════════════════════
+ STEP 7 — SET UP EMAIL NOTIFICATIONS (Optional)
+═══════════════════════════════════════════════════════
+
+So customers get "Notify Me" emails when products restock:
+
+1. Go to your Gmail account
+2. Go to: Google Account → Security → 2-Step Verification → App passwords
+3. Create an app password for "Mail"
+4. Copy the 16-character password
+
+5. In backend/.env:
+   EMAIL_USER=yourgmail@gmail.com
+   EMAIL_PASS=xxxx xxxx xxxx xxxx   ← the app password
+
+
+═══════════════════════════════════════════════════════
+ YOUR PROJECT STRUCTURE (for reference)
+═══════════════════════════════════════════════════════
+
+shophub/
+├── backend/
+│   ├── models/
+│   │   ├── User.js        ← User accounts & auth
+│   │   ├── Product.js     ← Products & inventory
+│   │   └── Order.js       ← Orders
+│   ├── routes/
+│   │   ├── auth.js        ← Login, register, profile
+│   │   ├── products.js    ← Product CRUD + notify me
+│   │   ├── orders.js      ← Place & view orders
+│   │   ├── payment.js     ← Razorpay integration
+│   │   └── wishlist.js    ← Wishlist toggle
+│   ├── middleware/
+│   │   └── auth.js        ← JWT protection
+│   ├── server.js          ← Main server entry
+│   ├── package.json
+│   └── .env               ← Your secret keys (never share!)
+│
+└── frontend/
+    ├── public/
+    │   └── index.html
+    ├── src/
+    │   ├── context/
+    │   │   ├── AuthContext.js   ← Login state
+    │   │   └── CartContext.js   ← Cart state
+    │   ├── components/
+    │   │   ├── Navbar.js/.css
+    │   │   ├── ProductCard.js/.css
+    │   │   └── NotifyModal.js
+    │   ├── pages/
+    │   │   ├── HomePage.js/.css      ← Products listing
+    │   │   ├── LoginPage.js          ← Login
+    │   │   ├── RegisterPage.js       ← Register
+    │   │   ├── CartPage.js/.css      ← Shopping cart
+    │   │   ├── CheckoutPage.js/.css  ← Checkout + Payment
+    │   │   ├── OrdersPage.js/.css    ← Order history
+    │   │   ├── AdminPage.js/.css     ← Admin dashboard
+    │   │   └── ProfilePage.js        ← User profile
+    │   ├── api.js           ← Axios HTTP client
+    │   ├── App.js           ← Routes
+    │   ├── index.js         ← React entry point
+    │   └── index.css        ← Global styles
+    ├── package.json
+    └── .env                 ← Razorpay key for frontend
+
+
+═══════════════════════════════════════════════════════
+ COMMON ERRORS & FIXES
+═══════════════════════════════════════════════════════
+
+❌ "MongoDB connection error"
+   → Make sure MongoDB is running
+   → Windows: Search "Services" → find "MongoDB" → Start
+   → Mac: Run: brew services start mongodb-community
+
+❌ "Cannot find module 'express'"
+   → You forgot to run: npm install (in backend folder)
+
+❌ "Cannot find module 'react-scripts'"
+   → You forgot to run: npm install (in frontend folder)
+
+❌ Products not showing
+   → Make sure backend is running on port 5000
+   → Click "Load Sample Products" in Admin Panel
+
+❌ Port 3000 already in use
+   → Another app is using port 3000
+   → Change frontend port: set PORT=3001 && npm start
+
+❌ "Not authorised" error
+   → Your login token expired, just login again
+
+═══════════════════════════════════════════════════════
+ WHAT'S NEXT? (Future improvements)
+═══════════════════════════════════════════════════════
+
+Phase 2 ideas you can add later:
+  ✦ Product image upload (using Cloudinary)
+  ✦ Customer reviews & ratings
+  ✦ Coupon codes & discounts
+  ✦ SMS notifications (Twilio)
+  ✦ Deploy online (Render.com for backend, Vercel for frontend)
+  ✦ Product search with filters (price range slider)
+  ✦ Multiple product images / gallery
+
+Need help? The code is well-commented — read it in VS Code!
+Each file has a clear purpose shown in the structure above.
