@@ -43,12 +43,6 @@ export default function LoginPage() {
           </button>
         </form>
 
-        <div className="auth-hint">
-          <p className="text-muted">
-            💡 <strong>Admin login:</strong> Register any user, then in MongoDB set their role to "admin"
-          </p>
-        </div>
-
         <p className="auth-footer text-muted">
           Don't have an account? <Link to="/register" className="auth-link">Register here</Link>
         </p>
